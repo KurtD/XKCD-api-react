@@ -11,8 +11,12 @@ function App() {
     <Router>
       <div>
         <nav>
-              <Link to="/">Latest</Link>
-              <Link to="/search">Search</Link>
+        <button className="latest">
+          <Link to="/">Latest</Link>
+        </button>
+        <button className="search">
+          <Link to="/search">Search</Link>
+        </button>
         </nav>
 
         {/* A <Switch> looks through its children <Route>s and
@@ -31,11 +35,25 @@ function App() {
 }
 
 function Latest() {
-  return <h2>Latest</h2>;
+  return (
+    <div>
+      <img className="latestImage" alt="" title="" source=""/>
+    </div>
+  )
 }
 
 function Search() {
-  return <h2>Search</h2>;
+  return (
+    <div>
+      <div>
+        <input className="searchInput" type="text" />
+        <button className="searchSubmit">Search</button>
+      </div>
+      <div>
+        <img className="searchImage" alt="" title="" source=""/>
+      </div>
+    </div>
+  )
 }
 
 export default App;
