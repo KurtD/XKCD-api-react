@@ -68,18 +68,55 @@ class Latest extends Component {
   }
 }
 
-function Search() {
-  return (
-    <div>
-      <div>
-        <input className="searchInput" type="text" />
-        <button className="searchSubmit">Search</button>
-      </div>
-      <div>
-        <img className="searchImage" alt="" title="" src=""/>
-      </div>
-    </div>
-  )
+class Search extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: null,
+      isLoaded: false,
+      value: '',
+    };
+  }
+
+  handleChange = (event) => {
+    this.setState({value: event.target.value});
+  }
+
+  handleClick = () => {
+    fetch('https://xkcd.now.sh/?comic=' + this.state.value)
+      .then(response => response.json())
+      .then(data => this.setState({ data: data, isLoaded: true }));
+  }
+
+  render(){
+    const { data, isLoaded } = this.state;
+    if (!isLoaded) {
+      return (
+        <div>
+          <div>
+            <input className="searchInput" type="text" value={this.state.value} onChange={this.handleChange}/>
+            <button className="searchSubmit" onClick={this.handleClick}>Search</button>
+          </div>
+          <div>
+            <img className="searchImage" alt="" title="" src=""/>
+          </div>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <div>
+            <input className="searchInput" type="text" value={this.state.value} onChange={this.handleChange}/>
+            <button className="searchSubmit" onClick={this.handleClick}>Search</button>
+          </div>
+          <div>
+            <img className="searchImage" alt="" title="" src={data.img}/>
+          </div>
+        </div>
+      )
+    }
+  }
+
 }
 
 export default App;
