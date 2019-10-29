@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -6,7 +6,9 @@ import {
   Link
 } from "react-router-dom";
 
-function App() {
+class App extends Component {
+
+render() {
   return (
     <Router>
       <div>
@@ -34,12 +36,36 @@ function App() {
   );
 }
 
-function Latest() {
-  return (
-    <div>
-      <img className="latestImage" alt="" title="" source=""/>
-    </div>
-  )
+}
+
+class Latest extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: null,
+      isLoaded: false,
+    };
+  }
+  componentDidMount() {
+    fetch('https://xkcd.now.sh/?comic=latest')
+      .then(response => response.json())
+      .then(data => this.setState({ data: data, isLoaded: true }));
+  }
+  render(){
+    const { data, isLoaded } = this.state;
+    if (!isLoaded){
+      return(
+        <div>Loading...</div>
+      )
+    } else {
+      console.log(data.img);
+      return(
+        <div>
+          <img className="latestImage" alt="" title="" src={data.img} />
+        </div>
+      )
+    }
+  }
 }
 
 function Search() {
@@ -50,7 +76,7 @@ function Search() {
         <button className="searchSubmit">Search</button>
       </div>
       <div>
-        <img className="searchImage" alt="" title="" source=""/>
+        <img className="searchImage" alt="" title="" src=""/>
       </div>
     </div>
   )
