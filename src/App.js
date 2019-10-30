@@ -39,7 +39,6 @@ class Latest extends Component {
   }
   render(){
     const { data } = this.state;
-    console.log(data);
     return(
       <div className="padTen">
         <BonusPoints title={data.safe_title} date={data.month + "/" + data.day + "/" + data.year}/>
@@ -73,12 +72,11 @@ class Search extends Component {
 
   render(){
     const { data } = this.state;
-    console.log(data);
     return (
       <div className="padTen">
         <div>
           <input className="searchInput" type="text" placeholder="(1 - 2219)" value={this.state.value} onChange={this.handleChange}/>
-          <button className="marginTen" onClick={this.handleClick}>Search</button>
+          <button className="searchSubmit" onClick={this.handleClick}>Search</button>
         </div>
         <BonusPoints title={data.safe_title} date={data.month + "/" + data.day + "/" + data.year}/>
         <div>
