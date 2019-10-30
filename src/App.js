@@ -5,36 +5,23 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import './index.css';
 
-class App extends Component {
-  render() {
-    const URL = "https://xkcd.now.sh/?comic=";
-    return (
-      <Router>
-        <Navigation />
-          <Switch>
-            <Route path="/search">
-              <Search apiEndpoint={URL}/>
-            </Route>
-            <Route path="/">
-              <Latest apiEndpoint={URL + "latest"}/>
-            </Route>
-          </Switch>
-      </Router>
-    );
-  }
-}
-
-function Navigation(){
-  return(
-    <nav>
-      <button className="latest">
-        <Link to="/">Latest</Link>
-      </button>
-      <button className="search">
-        <Link to="/search">Search</Link>
-      </button>
-    </nav>
+function App() {
+  const URL = "https://xkcd.now.sh/?comic=";
+  return (
+    <Router>
+        <Link to="/" className="latest">Latest</Link>
+        <Link to="/search" className="search">Search</Link>
+        <Switch>
+          <Route path="/search">
+            <Search apiEndpoint={URL}/>
+          </Route>
+          <Route path="/">
+            <Latest apiEndpoint={URL + "latest"}/>
+          </Route>
+        </Switch>
+    </Router>
   );
 }
 
@@ -54,8 +41,11 @@ class Latest extends Component {
     const { data } = this.state;
     console.log(data);
     return(
-      <div>
-        <img className="latestImage" alt={data.alt} title={data.title} src={data.img} />
+      <div className="padTen">
+        <BonusPoints title={data.safe_title} date={data.month + "/" + data.day + "/" + data.year}/>
+        <div>
+          <img className="latestImage" alt={data.title} title={data.alt} src={data.img} />
+        </div>
       </div>
     )
   }
@@ -83,17 +73,32 @@ class Search extends Component {
 
   render(){
     const { data } = this.state;
+    console.log(data);
     return (
-      <div>
+      <div className="padTen">
         <div>
-          <input className="searchInput" type="text" value={this.state.value} onChange={this.handleChange}/>
-          <button className="searchSubmit" onClick={this.handleClick}>Search</button>
+          <input className="searchInput" type="text" placeholder="(1 - 2219)" value={this.state.value} onChange={this.handleChange}/>
+          <button className="marginTen" onClick={this.handleClick}>Search</button>
         </div>
+        <BonusPoints title={data.safe_title} date={data.month + "/" + data.day + "/" + data.year}/>
         <div>
-          <img className="searchImage" alt={data.alt} title={data.title} src={data.img}/>
+          <img className="searchImage" alt={data.title} title={data.alt} src={data.img}/>
         </div>
       </div>
     )
+  }
+}
+
+function BonusPoints(props){
+  if (props.title != null) {
+    return (
+        <div className="bonus">
+          <div id="title">{props.title}</div>
+          <div id="date">{props.date}</div>
+        </div>
+    );
+  } else {
+    return(<div></div>)
   }
 }
 
